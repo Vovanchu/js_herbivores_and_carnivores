@@ -12,12 +12,7 @@ class Animal {
   }
 
   die() {
-    // Видаляємо тварину з масиву, коли її здоров'я 0 або менше
-    const index = Animal.alive.indexOf(this);
-
-    if (index !== -1) {
-      Animal.alive.splice(index, 1);
-    }
+    Animal.alive = Animal.alive.filter((animal) => animal !== this);
   }
 }
 
@@ -30,11 +25,6 @@ class Herbivore extends Animal {
   hide() {
     this.hidden = true;
   }
-
-  // Перевірка на смерть або прихованість перед атакою
-  isAlive() {
-    return this.health > 0;
-  }
 }
 
 class Carnivore extends Animal {
@@ -43,11 +33,8 @@ class Carnivore extends Animal {
   }
 
   bite(herbivore) {
-    if (
-      herbivore instanceof Herbivore &&
-      herbivore.isAlive() &&
-      !herbivore.hidden
-    ) {
+    // Перевіряємо, чи об'єкт є травоїдним, чи не ховається він
+    if (herbivore instanceof Herbivore && !herbivore.hidden) {
       herbivore.health -= 50;
 
       if (herbivore.health <= 0) {
